@@ -1,0 +1,50 @@
+# Git - Comandos Principais
+
+## 1. Configuração
+git config --global user.name "Seu Nome"              # Configura o nome de usuário global para identificar os commits
+git config --global user.email "seuemail@example.com" # Configura o e-mail global para identificar os commits
+git config --list                                     # Exibe todas as configurações atuais do Git
+
+## 2. Inicializar e Clonar Repositórios
+git init                                              # Inicializa um novo repositório Git no diretório atual
+git clone <URL>                                       # Faz uma cópia (clone) de um repositório remoto para o diretório local
+
+## 3. Trabalhando com Arquivos
+git add <arquivo>                                     # Adiciona um arquivo específico à área de stage
+git add .                                             # Adiciona todas as mudanças (novos arquivos, modificados) ao stage
+git rm <arquivo>                                      # Remove um arquivo do repositório e do sistema de arquivos
+
+## 4. Commit e Histórico
+git commit -m "Mensagem do commit"                   # Cria um commit com as mudanças no stage e uma mensagem descritiva
+git log                                               # Exibe o histórico completo de commits no repositório
+git log --oneline                                     # Exibe o histórico de commits em formato resumido (uma linha por commit)
+
+## 5. Status e Diferenças
+git status                                            # Mostra o estado atual do repositório (arquivos modificados, não rastreados, etc.)
+git diff                                              # Exibe as diferenças entre as mudanças não staged e a última versão commitada
+git diff --staged                                     # Exibe as diferenças entre as mudanças staged e a última versão commitada
+
+## 6. Trabalhando com Branches
+git branch <nome-da-branch>                           # Cria uma nova branch (ramificação) com o nome especificado
+git checkout <nome-da-branch>                        # Alterna para uma branch existente
+git checkout -b <nome-da-branch>                     # Cria e alterna para uma nova branch ao mesmo tempo
+git branch                                            # Lista todas as branches existentes no repositório
+git branch -d <nome-da-branch>                       # Exclui uma branch que não está mais em uso
+
+## 7. Trabalhando com o Repositório Remoto
+git remote add origin <URL>                          # Configura um repositório remoto com o apelido "origin"
+git remote -v                                        # Mostra os repositórios remotos configurados e seus URLs
+git push origin <branch>                             # Envia os commits da branch local para o repositório remoto
+git pull origin <branch>                             # Traz mudanças da branch remota e mescla com a branch local
+git clone <URL>                                      # Faz o download de um repositório remoto e cria uma cópia local
+
+## 8. Desfazendo Alterações
+git restore <arquivo>                                # Desfaz as mudanças em um arquivo modificado, voltando à última versão commitada
+git restore --staged <arquivo>                       # Remove um arquivo do stage, mas mantém as mudanças no diretório de trabalho
+git reset --soft HEAD~1                              # Desfaz o último commit, mantendo as mudanças na área de stage
+git reset --hard HEAD~1                              # Desfaz o último commit e descarta todas as mudanças
+
+## 9. Outros Comandos Úteis
+git log -p <arquivo>                                 # Mostra o histórico de alterações detalhado de um arquivo
+git blame <arquivo>                                  # Mostra quem fez cada alteração em um arquivo e em qual commit
+git clean -f                                         # Remove arquivos não rastreados do diretório de trabalho
