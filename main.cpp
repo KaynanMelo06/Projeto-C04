@@ -4,47 +4,47 @@ using namespace std;
 
 void cadastrarCidade()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void cadastrarEstrada()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void buscarCentroPokemonMaisProximo()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void cadastrarPokemon()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void removerPokemon()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void listarPokemonAlfabetico()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void listarPokemonTipo()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void contarPokemonTipo()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 void encontrarPokemonProximos()
 {
-	cout << "Funcionalidade em construção" << endl;
+	cout << "Funcionalidade em construcao" << endl;
 }
 
 
