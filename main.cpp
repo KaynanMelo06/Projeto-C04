@@ -48,7 +48,7 @@ void encontrarPokemonProximos()
 }
 
 
-//Comentario de teste foda-se
+
 
 int main()
 
