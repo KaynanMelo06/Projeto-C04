@@ -47,7 +47,12 @@ void encontrarPokemonProximos()
 	cout << "Funcionalidade em construcao" << endl;
 }
 
+
 // Comentario de teste foda-se
+
+
+
+
 
 int main()
 
