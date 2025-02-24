@@ -7,9 +7,9 @@ struct Pokemon
 {
     string nome;
     float peso;
-    string tipo; 
+    string tipo;
 
-    void exibir() 
+    void exibir()
     {
         cout << "Nome: " << nome << "\nPeso: " << peso << "kg\nTipo: " << tipo << endl;
     }
@@ -27,11 +27,11 @@ int main()
 
     // Exibindo todos os Pokémon da lista
     cout << "Lista de Pokémon:\n";
-    
+
     // Pokemon& p, declara uma referencia (&) para um elemento da lista pokemons
     // : pokemons, significa que p irá percorrer todos os elementos da lista pokemons
-    for ( Pokemon& p : pokemons) 
-    {                            
+    for (Pokemon &p : pokemons)
+    {
         p.exibir();
         cout << "-----------------\n";
     }

@@ -22,8 +22,8 @@ int main()
     tam = aula.size();
     for (int i = 0; i < tam; i++)
     {
-        cout << aula.front() << "\n";
-        aula.pop_front();
+        cout << aula.back() << "\n";
+        aula.pop_back();
     }
 
     return 0;
