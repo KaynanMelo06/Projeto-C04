@@ -30,9 +30,9 @@ int main()
 
     // Pokemon& p, declara uma referencia (&) para um elemento da lista pokemons
     // : pokemons, significa que p irá percorrer todos os elementos da lista pokemons
-    for (Pokemon &p : pokemons)
+    for (list<Pokemon>::iterator it = pokemons.begin(); it != pokemons.end(); ++it)
     {
-        p.exibir();
+        cout << "Nome: " << it->nome << "\nPeso: " << it->peso << "kg\nTipo: " << it->tipo << endl;
         cout << "-----------------\n";
     }
 
