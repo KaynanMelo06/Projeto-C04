@@ -119,7 +119,7 @@ int main()
 			encontrarPokemonProximos();
 			break;
 		default:
-			cout << "Opcao invalida" << endl;
+			cout << "Opcao invalida, encerrando..." << endl;
 			acabar = true;
 			break;
 		}
