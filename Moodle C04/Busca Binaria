@@ -1,3 +1,5 @@
+// Fonte: https://blog.pantuza.com/artigos/busca-binaria
+
 #include <stdlib.h>
 #include <iostream>
 
