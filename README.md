@@ -4,4 +4,4 @@
 # Dalmo Ney Vieira Neto
 # Eduardo Kawatani Rios
 # Kaynan Henrique Dias de Melo
-# Pedro Padilha Fróes
+# Pedro Fróes Padilha Demétrio
