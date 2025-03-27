@@ -1,44 +1,58 @@
 #include <iostream>
-#include <cstring> // Biblioteca utilizada para manipulação de strings
 #include <list> // Biblioteca utilizada para manipulação de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
 
 using namespace std;
-
-struct DadosCidade
+	
+struct dadoscidade // Estrutura para armazenar os dados das cidades
 {
-	char nomecidades[50];
+	int codigo;
+	string nome;
+	bool pc;
 };
-
-
 void cadastrarCidade()
 {
-	int ncidades;
-	DadosCidade cidades[50];
+	dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades
+	int ncidades; // Numero de cidades a serem cadastradas
+	char simnao; // Para armazenar a resposta S/N
 
-	cout << "Digite o numero de cidades: " << endl;
+	cout << "Digite o numero de cidades: " << endl;  
 	cin >> ncidades;
-	cin.ignore(); // Evita problemas com o cin.getline 
 
-	while(ncidades <= 0)
+	while(ncidades <= 0) // Verifica se o numero de cidades é valido
 	{
 		cout << "Numero de cidades invalido, digite novamente: " << endl;
 		cin >> ncidades;
 	}
-
-	cout << "Digite o nome das cidades: " << endl;
 	
 	for(int i = 0; i < ncidades; i++)
 	{
-		cout << "Cidade " << i+1 << ": ";
-		cin.getline(cidades[i].nomecidades, 50);
+		cout << "Nome da cidade " << i+1 << ": ";
+		getline(cin >> ws, dados[i].nome);  // Jeito de utilizar strings. WS = cin.ignore().
+		
+		cout << "O codigo da cidade " << i+1 << ": ";
+		cin >> dados[i].codigo;	
+		
+		cout << "Essa cidade possui centro pokemon: S/N? " << endl;
+		cin >> simnao;
+
+		if(simnao == 'S' || simnao == 's')
+		{
+			dados[i].pc = true;
+		}
+		else
+		{
+			dados[i].pc = false;
+		}
+	
 	}
 
-	for(int i = 0; i < ncidades; i++)
-	{
-		cout << cidades[i].nomecidades << endl;
-	}
-	
+	for(int i = 0; i < ncidades; i++) // Teste
+		{
+			cout << "Cidade " << i+1 << ": " << dados[i].nome << endl;
+			cout << "Codigo: " << dados[i].codigo << endl;
+			cout << "Possui CP: " << dados[i].pc << endl;
+		}
 	
 
 }
