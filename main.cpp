@@ -57,12 +57,9 @@ void cadastrarCidade()
 
 }
 
-void cadastrarEstrada()
+void cadastrarEstrada() // IGNORE 
 {
-	cout << "cadastrar estrada" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
-	cout << "------------------------------" << endl;
+    
 }
 
 void buscarCentroPokemonMaisProximo()
