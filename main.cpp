@@ -1,14 +1,46 @@
 #include <iostream>
+#include <cstring> // Biblioteca utilizada para manipulação de strings
+#include <list> // Biblioteca utilizada para manipulação de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
 
 using namespace std;
 
+struct DadosCidade
+{
+	char nomecidades[50];
+};
+
+
 void cadastrarCidade()
 {
-	cout << "cadastrar cidade" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
-	cout << "------------------------------" << endl;
+	int ncidades;
+	DadosCidade cidades[50];
+
+	cout << "Digite o numero de cidades: " << endl;
+	cin >> ncidades;
+	cin.ignore(); // Evita problemas com o cin.getline 
+
+	while(ncidades <= 0)
+	{
+		cout << "Numero de cidades invalido, digite novamente: " << endl;
+		cin >> ncidades;
+	}
+
+	cout << "Digite o nome das cidades: " << endl;
+	
+	for(int i = 0; i < ncidades; i++)
+	{
+		cout << "Cidade " << i+1 << ": ";
+		cin.getline(cidades[i].nomecidades, 50);
+	}
+
+	for(int i = 0; i < ncidades; i++)
+	{
+		cout << cidades[i].nomecidades << endl;
+	}
+	
+	
+
 }
 
 void cadastrarEstrada()
