@@ -47,6 +47,8 @@ void cadastrarCidade()
 	
 	}
 
+	system("CLS");
+
 	for(int i = 0; i < ncidades; i++) // Teste
 		{
 			cout << "Cidade " << i+1 << ": " << dados[i].nome << endl;
