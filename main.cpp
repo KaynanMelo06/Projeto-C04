@@ -8,6 +8,7 @@ using namespace std;
 struct DadosCidade
 {
 	char nomecidades[50];
+	bool centroPokemon;
 };
 
 
@@ -15,6 +16,7 @@ void cadastrarCidade()
 {
 	int ncidades;
 	DadosCidade cidades[50];
+	char resposta;
 
 	cout << "Digite o numero de cidades: " << endl;
 	cin >> ncidades;
@@ -28,16 +30,36 @@ void cadastrarCidade()
 
 	cout << "Digite o nome das cidades: " << endl;
 	
-	for(int i = 0; i < ncidades; i++)
-	{
-		cout << "Cidade " << i+1 << ": ";
-		cin.getline(cidades[i].nomecidades, 50);
+	for (int i = 0; i < ncidades; i++)
+    {
+        cout << "Cidade " << i + 1 << ": ";
+        cin.getline(cidades[i].nomecidades, 50); // Lê o nome da cidade
+
+        cout << "Possui centro Pokemon? (S, N): ";
+        cin >> resposta;
+        cin.ignore(); // Limpa o buffer após ler a resposta
+
+        if (resposta == 'S' || resposta == 's')
+        {
+            cidades[i].centroPokemon = true;
+        }
+        else if (resposta == 'N' || resposta == 'n')
+        {
+            cidades[i].centroPokemon = false;
+        }
+        else
+        {
+            cout << "Resposta invalida, digite novamente: ";
+            cin >> resposta;
+            cin.ignore(); // Limpa o buffer novamente
+        }
 	}
 
 	for(int i = 0; i < ncidades; i++)
 	{
 		cout << cidades[i].nomecidades << endl;
 	}
+	
 	
 	
 
