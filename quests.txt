@@ -1,0 +1,4 @@
+1_ Solução para caso o seja cadastrado cidades com o mesmo ID.
+2_ PT_BR
+3_ String ou inteiro
+4_ Consertar o problema de letras quebram tudo
