@@ -40,13 +40,14 @@ void cadastrarCidade()
 		cout << "Nome da cidade " << i + 1 << ": ";
 		getline(cin.ignore(), dados[i].nome);
 
+		/*
 		dados[i].codigo = i + 1;
 		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo << endl;
-
-		/*
+		*/
+		
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
-		*/
+		
 
 		while (dados[i].codigo < 1 || dados[i].codigo > ncidades)
 		{
@@ -154,6 +155,8 @@ int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 		}
 	}
 }
+
+
 
 void buscarCentroPokemonMaisProximo()
 {
