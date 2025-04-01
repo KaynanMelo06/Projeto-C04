@@ -1,37 +1,34 @@
 #include <iostream>
-#include <list> // Biblioteca utilizada para manipulação de listas
+#include <list> // Biblioteca utilizada para manipula��o de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
 
 using namespace std;
-
-
-//Variaveis globais
-int ncidades = 0;
-
-
-
+	
 struct dadoscidade // Estrutura para armazenar os dados das cidades
 {
 	int codigo;
 	string nome;
 	bool pc;
+	
+	int ncidades;
 };
 
 void cadastrarCidade()
 {
 	dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades
+	dadoscidade ncidade; // Atribui a struct a variavel ncidade, que armazena o numero de cidades
 	char simnao; // Para armazenar a resposta S/N
 
 	cout << "Digite o numero de cidades: " << endl;  
-	cin >> ncidades;
+	cin >> ncidade.ncidades;
 
-	while(ncidades <= 0) // Verifica se o numero de cidades é valido
+	while(ncidade.ncidades <= 0) // Verifica se o numero de cidades � valido
 	{
 		cout << "Numero de cidades invalido, digite novamente: " << endl;
-		cin >> ncidades;
+		cin >> ncidade.ncidades;
 	}
 	
-	for(int i = 0; i < ncidades; i++)
+	for(int i = 0; i < ncidade.ncidades; i++)
 	{
 		cout << "Nome da cidade " << i+1 << ": ";
 		getline(cin >> ws, dados[i].nome);  // Jeito de utilizar strings. WS = cin.ignore().
@@ -55,7 +52,7 @@ void cadastrarCidade()
 
 	system("CLS");
 
-	for(int i = 0; i < ncidades; i++) // Teste
+	for(int i = 0; i < ncidade.ncidades; i++) // Teste
 		{
 			cout << "Cidade " << i+1 << ": " << dados[i].nome << endl;
 			cout << "Codigo: " << dados[i].codigo << endl;
@@ -65,28 +62,46 @@ void cadastrarCidade()
 
 }
 
+struct estrada {
+	int cidade1;
+	int cidade2;
+	float distancia;
+};
+
 void cadastrarEstrada() 
 {
-    // Criar e inicializar a matriz de adjacência com -1
-    int grafo[ncidades][ncidades];
 
-    for (int i = 0; i < ncidades; i++) {
-        for (int j = 0; j < ncidades; j++) {
-            grafo[i][j] = -1; // Inicializa todas as conexões como -1
-        }
-    }
+	list<estrada> estradas; // Lista para armazenar as estradas
 
-	
+	int cidade1, cidade2;
+	float distancia;
+	char continuar;
 
-	// Exibir a matriz de adjacência
-    cout << "Matriz de Adjacencia:" << endl;
-    for (int i = 0; i < ncidades; i++) {
-        for (int j = 0; j < ncidades; j++) {
-            cout << grafo[i][j] << " ";
-        }
-        cout << endl;
-    }
-	
+	do {
+		cout << "Digite o codigo da primeira cidade: ";
+		cin >> cidade1;
+
+		cout << "Digite o codigo da segunda cidade: ";
+		cin >> cidade2;
+
+		cout << "Digite a distancia entre as cidades: ";
+		cin >> distancia;
+
+		estrada novaEstrada = {cidade1, cidade2, distancia};
+		estradas.push_back(novaEstrada);
+
+		cout << "Deseja cadastrar outra estrada? (S/N): ";
+		cin >> continuar;
+
+	} while (continuar == 'S' || continuar == 's');
+
+	system("CLS");
+
+	cout << "Estradas cadastradas:" << endl;
+	for (list<estrada>::const_iterator it = estradas.begin(); it != estradas.end(); ++it) {
+		cout << "Cidade 1: " << it->cidade1 << ", Cidade 2: " << it->cidade2
+			 << ", Distancia: " << it->distancia << " km" << endl;
+	}
 }
 
 void buscarCentroPokemonMaisProximo()
