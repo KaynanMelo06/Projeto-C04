@@ -41,14 +41,18 @@ void cadastrarCidade()
 		getline(cin.ignore(), dados[i].nome);
 
 		dados[i].codigo = i + 1;
+<<<<<<< HEAD
 		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo << endl;
 
+=======
+		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo;
+		
+>>>>>>> 757c95700ba3f3b106fee25b5f66809879ef366b
 		/*
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
 		*/
 
-		// Verifica se o código está dentro do intervalo válido
 		while (dados[i].codigo < 1 || dados[i].codigo > ncidades)
 		{
 			cout << "Codigo invalido. Digite novamente (entre 1 e " << ncidades << "): ";
@@ -134,6 +138,7 @@ void cadastrarEstrada()
 	}
 }
 
+//Função que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessário.
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
 	if (baixo <= alto && achou == false)
@@ -147,11 +152,11 @@ int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 		}
 		else if (x < dados[meio].codigo)
 		{
-			return binaria_recursiva(dados, x, baixo, meio - 1);
+			return binaria_recursiva(dados, x, baixo, meio - 1); //Recursividade, dividindo o vetor da metade pra baixo.
 		}
 		else if (x > dados[meio].codigo)
 		{
-			return binaria_recursiva(dados, x, meio + 1, alto);
+			return binaria_recursiva(dados, x, meio + 1, alto);//Dividindo o vetor da metade pra cima.
 		}
 	}
 }
@@ -183,16 +188,20 @@ void buscarCentroPokemonMaisProximo()
 	if (achou == false)
 	{
 		cout << "Cidade nao cadastrada." << endl;
+		cout << "__________________________________________________" << endl;
 		return;
 	}
 	else
 	{
-		cout << "achei" << indice << endl;
+		cout << "Cidades próximas: "
 		achou = false;
 	}
+<<<<<<< HEAD
 
 	/*
 	se ja estiver na cidade com CP, perguntar se deseja encontrar outra*/
+=======
+>>>>>>> 757c95700ba3f3b106fee25b5f66809879ef366b
 }
 
 void cadastrarPokemon()
