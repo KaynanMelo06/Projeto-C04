@@ -16,15 +16,13 @@ int ncidades = 0; //Quantidade de cidades cadastradas.
 dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades.
 bool achou = false;
 
+
 void cadastrarCidade()
 {
-	char simnao; // Para armazenar a resposta S/N.
-	int temp;	 // variável temporária para cadastrar o número de cidades.
+	char simnao; // Para armazenar a resposta S/N
 
 	cout << "Digite o numero de cidades: " << endl;
-	cin >> temp;
-
-	ncidades = ncidades + temp; // soma da quantidade de cidades novas com a quantidade de cidades já cadastradas.
+	cin >> ncidades;
 
 	while (ncidades <= 0) // Verifica se o numero de cidades é valido
 	{
@@ -35,10 +33,18 @@ void cadastrarCidade()
 	for (int i = 0; i < ncidades; i++)
 	{
 		cout << "Nome da cidade " << i + 1 << ": ";
-		getline(cin >> ws, dados[i].nome); // Jeito de utilizar strings. WS = cin.ignore().
+		getline(cin.ignore(), dados[i].nome);
 
-		cout << "O codigo da cidade " << i + 1 << ": ";
+		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
+
+		// Verifica se o código está dentro do intervalo válido
+		while (dados[i].codigo < 1 || dados[i].codigo > ncidades) 
+		{
+    		cout << "Codigo invalido. Digite novamente (entre 1 e " << ncidades << "): ";
+    		cin >> dados[i].codigo;
+		}
+		
 
 		cout << "Essa cidade possui centro pokemon: S/N? " << endl;
 		cin >> simnao;
@@ -65,33 +71,45 @@ void cadastrarCidade()
 
 void cadastrarEstrada()
 {
-    // Criar e inicializar a matriz de adjacência com -1
-    int grafo[ncidades][ncidades];
+	// Criar e inicializar a matriz de adjacência com -1
+	int grafo[ncidades][ncidades];
 
-    for (int i = 0; i < ncidades; i++)
-    {
-        for (int j = 0; j < ncidades; j++)
+	if (ncidades <= 0) { // Verifica se há cidades cadastradas
+        cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
+        return;
+    } 
+		cout << "Cidades cadastradas: " << endl;
+	for (int i = 0; i < ncidades; i++) // Para ver as cidades cadastradas
+	{
+		cout << "Cidade " << i + 1 << ": " << dados[i].nome << endl;
+		cout << "Codigo: " << dados[i].codigo << endl;
+		cout << " " << endl;
+	}
+	
+	for (int i = 0; i < ncidades; i++)
+	{
+		for (int j = 0; j < ncidades; j++)
+		{
+			grafo[i][j] = -1; // Inicializa todas as conexões como -1
+		}
+	}
+
+	char continuar;
+	do
+	{
+		int cidade1, cidade2, distancia;
+
+		cout << "Digite o codigo da primeira cidade: ";
+		cin >> cidade1;
+		cout << "Digite o codigo da segunda cidade: ";
+		cin >> cidade2;
+		cout << "Digite a distancia entre as cidades: ";
+		cin >> distancia;
+
+		if (cidade1 >= 0 && cidade1 <= ncidades && cidade2 >= 0 && cidade2 <= ncidades) 
         {
-            grafo[i][j] = -1; // Inicializa todas as conexões como -1
-        }
-    }
-
-    char continuar;
-    do
-    {
-        int cidade1, cidade2, distancia;
-
-        cout << "Digite o codigo da primeira cidade: ";
-        cin >> cidade1;
-        cout << "Digite o codigo da segunda cidade: ";
-        cin >> cidade2;
-        cout << "Digite a distancia entre as cidades: ";
-        cin >> distancia;
-
-        if (cidade1 >= 0 && cidade2 >= 0)
-        {
-            grafo[cidade1][cidade2] = distancia;
-            grafo[cidade2][cidade1] = distancia; // Para grafos não direcionados
+            grafo[cidade1 - 1][cidade2 - 1] = distancia; //-1 Por conta da matriz começar em 0 (ISSO QUE EU TAVA FALANDO KAYNAN, CARAIO)
+            grafo[cidade2 - 1][cidade1 - 1] = distancia; // Grafo não direcionado
         }
         else
         {
@@ -114,6 +132,7 @@ void cadastrarEstrada()
         cout << endl;
     }
 }
+
 
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
@@ -141,6 +160,14 @@ int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 void buscarCentroPokemonMaisProximo()
 {
 	int ID, indice;
+	
+	for (int i = 0; i < ncidades; i++) // Para ver as cidades cadastradas
+	{
+		cout << "Cidade " << i + 1 << ": " << dados[i].nome << endl;
+		cout << "Codigo: " << dados[i].codigo << endl;
+		cout << " " << endl;
+	}
+	
 	cout << "Digite o ID/codigo da sua cidade:" << endl;
 	cin >> ID;
 
