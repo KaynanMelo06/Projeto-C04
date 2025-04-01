@@ -2,6 +2,7 @@
 #include <list>	   // Biblioteca utilizada para manipulação de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
 #include <cstring> // Biblioteca utilizada para Strings
+#include <climits> // Biblioteca para definir um valor maximo muito alto (ex. INT_MAX)
 
 using namespace std;
 
@@ -16,6 +17,7 @@ struct dadoscidade // Estrutura para armazenar os dados das cidades
 int ncidades = 0;	   // Quantidade de cidades cadastradas.
 dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades.
 bool achou = false;
+int grafo[50][50]; // Criar e inicializar a matriz de adjacencia
 
 void cadastrarCidade()
 {
@@ -27,7 +29,7 @@ void cadastrarCidade()
 
 	ncidades = ncidades + temp;
 
-	while (ncidades <= 0) // Verifica se o numero de cidades é valido
+	while (ncidades <= 0) // Verifica se o numero de cidades é valido1
 	{
 		cout << "Numero de cidades invalido, digite novamente: " << endl;
 		cin >> ncidades;
@@ -39,8 +41,8 @@ void cadastrarCidade()
 		getline(cin.ignore(), dados[i].nome);
 
 		dados[i].codigo = i + 1;
-		cout << "O codigo da cidade " << i + 1 << ": " << cout << dados[i].codigo;
-		
+		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo << endl;
+
 		/*
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
@@ -78,8 +80,6 @@ void cadastrarCidade()
 
 void cadastrarEstrada()
 {
-	// Criar e inicializar a matriz de adjacência com -1
-	int grafo[ncidades][ncidades];
 
 	if (ncidades <= 0)
 	{ // Verifica se há cidades cadastradas
@@ -94,18 +94,11 @@ void cadastrarEstrada()
 		cout << " " << endl;
 	}
 
-	for (int i = 0; i < ncidades; i++)
-	{
-		for (int j = 0; j < ncidades; j++)
-		{
-			grafo[i][j] = -1; // Inicializa todas as conexões como -1
-		}
-	}
-
 	char continuar;
 	do
 	{
 		int cidade1, cidade2, distancia;
+		
 
 		cout << "Digite o codigo da primeira cidade: ";
 		cin >> cidade1;
@@ -198,10 +191,8 @@ void buscarCentroPokemonMaisProximo()
 		achou = false;
 	}
 
-	cout << "buscar centro pokemon mais proximo" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
-	cout << "------------------------------" << endl;
+	/*
+	se ja estiver na cidade com CP, perguntar se deseja encontrar outra*/
 }
 
 void cadastrarPokemon()
@@ -255,6 +246,14 @@ void encontrarPokemonProximos()
 int main()
 {
 	bool acabar = false;
+
+	for (int i = 0; i < 50; i++)
+	{
+		for (int j = 0; j < 50; j++)
+		{
+			grafo[i][j] = -1; // Inicializa todas as conexões como -1
+		}
+	}
 
 	do
 	{
