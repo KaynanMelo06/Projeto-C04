@@ -1,4 +1,6 @@
 1_ Solução para caso o seja cadastrado cidades com o mesmo ID.
-2_ PT_BR
-3_ String ou inteiro
-4_ Consertar o problema de letras quebram tudo
+2_ PT_BR.
+3_ String ou inteiro.
+4_ Consertar o problema de letras quebram tudo.
+5_ Atribuir um ID automaticamente a cidade, em cadastrar cidade.
+6_ Fróes comente a função de busca.
