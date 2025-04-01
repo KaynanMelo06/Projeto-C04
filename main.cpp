@@ -12,17 +12,19 @@ struct dadoscidade // Estrutura para armazenar os dados das cidades
 };
 
 // Variaveis globais
-int ncidades = 0; //Quantidade de cidades cadastradas.
+int ncidades = 0;	   // Quantidade de cidades cadastradas.
 dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades.
 bool achou = false;
-
 
 void cadastrarCidade()
 {
 	char simnao; // Para armazenar a resposta S/N
+	int temp;
 
 	cout << "Digite o numero de cidades: " << endl;
-	cin >> ncidades;
+	cin >> temp;
+
+	ncidades = ncidades + temp;
 
 	while (ncidades <= 0) // Verifica se o numero de cidades é valido
 	{
@@ -39,12 +41,11 @@ void cadastrarCidade()
 		cin >> dados[i].codigo;
 
 		// Verifica se o código está dentro do intervalo válido
-		while (dados[i].codigo < 1 || dados[i].codigo > ncidades) 
+		while (dados[i].codigo < 1 || dados[i].codigo > ncidades)
 		{
-    		cout << "Codigo invalido. Digite novamente (entre 1 e " << ncidades << "): ";
-    		cin >> dados[i].codigo;
+			cout << "Codigo invalido. Digite novamente (entre 1 e " << ncidades << "): ";
+			cin >> dados[i].codigo;
 		}
-		
 
 		cout << "Essa cidade possui centro pokemon: S/N? " << endl;
 		cin >> simnao;
@@ -74,18 +75,19 @@ void cadastrarEstrada()
 	// Criar e inicializar a matriz de adjacência com -1
 	int grafo[ncidades][ncidades];
 
-	if (ncidades <= 0) { // Verifica se há cidades cadastradas
-        cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
-        return;
-    } 
-		cout << "Cidades cadastradas: " << endl;
+	if (ncidades <= 0)
+	{ // Verifica se há cidades cadastradas
+		cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
+		return;
+	}
+	cout << "Cidades cadastradas: " << endl;
 	for (int i = 0; i < ncidades; i++) // Para ver as cidades cadastradas
 	{
 		cout << "Cidade " << i + 1 << ": " << dados[i].nome << endl;
 		cout << "Codigo: " << dados[i].codigo << endl;
 		cout << " " << endl;
 	}
-	
+
 	for (int i = 0; i < ncidades; i++)
 	{
 		for (int j = 0; j < ncidades; j++)
@@ -106,33 +108,32 @@ void cadastrarEstrada()
 		cout << "Digite a distancia entre as cidades: ";
 		cin >> distancia;
 
-		if (cidade1 >= 0 && cidade1 <= ncidades && cidade2 >= 0 && cidade2 <= ncidades) 
-        {
-            grafo[cidade1 - 1][cidade2 - 1] = distancia; //-1 Por conta da matriz começar em 0 (ISSO QUE EU TAVA FALANDO KAYNAN, CARAIO)
-            grafo[cidade2 - 1][cidade1 - 1] = distancia; // Grafo não direcionado
-        }
-        else
-        {
-            cout << "Codigos de cidades invalidos. Tente novamente." << endl;
-        }
+		if (cidade1 >= 0 && cidade1 <= ncidades && cidade2 >= 0 && cidade2 <= ncidades)
+		{
+			grafo[cidade1 - 1][cidade2 - 1] = distancia; //-1 Por conta da matriz começar em 0 (ISSO QUE EU TAVA FALANDO KAYNAN, CARAIO)
+			grafo[cidade2 - 1][cidade1 - 1] = distancia; // Grafo não direcionado
+		}
+		else
+		{
+			cout << "Codigos de cidades invalidos. Tente novamente." << endl;
+		}
 
-        cout << "Deseja cadastrar outra estrada? (S/N): ";
-        cin >> continuar;
+		cout << "Deseja cadastrar outra estrada? (S/N): ";
+		cin >> continuar;
 
-    } while (continuar == 'S' || continuar == 's');
+	} while (continuar == 'S' || continuar == 's');
 
-    // Exibir a matriz de adjacência
-    cout << "Matriz de Adjacencia:" << endl;
-    for (int i = 0; i < ncidades; i++)
-    {
-        for (int j = 0; j < ncidades; j++)
-        {
-            cout << grafo[i][j] << " ";
-        }
-        cout << endl;
-    }
+	// Exibir a matriz de adjacência
+	cout << "Matriz de Adjacencia:" << endl;
+	for (int i = 0; i < ncidades; i++)
+	{
+		for (int j = 0; j < ncidades; j++)
+		{
+			cout << grafo[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
-
 
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
@@ -156,33 +157,33 @@ int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 	}
 }
 
-
 void buscarCentroPokemonMaisProximo()
 {
 	int ID, indice;
-	
-	if (ncidades <= 0) { // Verifica se há cidades cadastradas
-        cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
-        return;
-    } 
-		
+
+	if (ncidades <= 0)
+	{ // Verifica se há cidades cadastradas
+		cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
+		return;
+	}
+
 	cout << "Cidades cadastradas: " << endl;
-	
+
 	for (int i = 0; i < ncidades; i++) // Para ver as cidades cadastradas
 	{
 		cout << "Cidade " << i + 1 << ": " << dados[i].nome << endl;
 		cout << "Codigo: " << dados[i].codigo << endl;
 		cout << " " << endl;
 	}
-	
+
 	cout << "Digite o ID/codigo da sua cidade:" << endl;
 	cin >> ID;
 
-	indice = binaria_recursiva(dados,ID,0,ncidades-1);
+	indice = binaria_recursiva(dados, ID, 0, ncidades - 1);
 
-	if(achou == false)
+	if (achou == false)
 	{
-		cout <<"Cidade nao cadastrada."<< endl;
+		cout << "Cidade nao cadastrada." << endl;
 		return;
 	}
 	else
