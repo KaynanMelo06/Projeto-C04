@@ -4,3 +4,95 @@
 4_ Consertar o problema de letras quebram tudo.
     4.1_ao cadastrar o numero de cidades.
 5_ Atribuir um ID automaticamente a cidade, em cadastrar cidades
+
+
+#include <iostream>
+#include <list>
+#include <vector>
+#define INF 999999
+using namespace std;
+
+struct Aresta {
+    int origem, destino, peso;
+};
+
+// Função para converter a matriz de adjacência para uma lista de adjacência
+void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50][50], int ncidades) {
+    for (int i = 0; i < ncidades; i++) {
+        for (int j = 0; j < ncidades; j++) {
+            if (grafoMatriz[i][j] != -1) { // Apenas adiciona arestas válidas
+                grafoLista[i].push_back({i, j, grafoMatriz[i][j]});
+            }
+        }
+    }
+}
+
+// Algoritmo de Prim adaptado para encontrar o Centro Pokémon mais próximo
+int primCentroPokemonMaisProximo(list<Aresta> grafo[], int vertices, int origem, dadoscidade dados[]) {
+    bool visitado[vertices];
+    int distancia[vertices], atual;
+    for (int i = 0; i < vertices; i++) {
+        visitado[i] = false;
+        distancia[i] = INF;
+    }
+    atual = origem;
+    distancia[atual] = 0;
+
+    while (!visitado[atual]) {
+        visitado[atual] = true;
+
+        // Verifica se a cidade atual possui um Centro Pokémon
+        if (dados[atual].pc) {
+            cout << "O Centro Pokémon mais próximo está na cidade: " << dados[atual].nome << endl;
+            cout << "Distância: " << distancia[atual] << endl;
+            return distancia[atual];
+        }
+
+        // Atualiza as distâncias para as cidades vizinhas
+        list<Aresta>::iterator it;
+        for (it = grafo[atual].begin(); it != grafo[atual].end(); it++) {
+            int d = it->destino, p = it->peso;
+            if (!visitado[d] && p < distancia[d]) {
+                distancia[d] = p;
+            }
+        }
+
+        // Encontra a próxima cidade com a menor distância
+        int menor_distancia = INF;
+        for (int i = 0; i < vertices; i++) {
+            if (!visitado[i] && distancia[i] < menor_distancia) {
+                menor_distancia = distancia[i];
+                atual = i;
+            }
+        }
+    }
+
+    cout << "Nenhum Centro Pokémon encontrado acessível a partir da cidade atual." << endl;
+    return -1;
+}
+
+// Função para buscar o Centro Pokémon mais próximo
+void buscarCentroPokemonMaisProximo() {
+    if (ncidades <= 0) {
+        cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
+        return;
+    }
+
+    int cidadeAtual;
+    cout << "Digite o código da sua cidade atual: ";
+    cin >> cidadeAtual;
+
+    if (cidadeAtual < 1 || cidadeAtual > ncidades) {
+        cout << "Código de cidade inválido!" << endl;
+        return;
+    }
+
+    cidadeAtual--; // Ajustar para índice da matriz (0-based)
+
+    // Converter a matriz de adjacência para uma lista de adjacência
+    list<Aresta> grafoLista[50];
+    converterParaListaAdjacencia(grafoLista, grafo, ncidades);
+
+    // Chamar o algoritmo de Prim adaptado
+    primCentroPokemonMaisProximo(grafoLista, ncidades, cidadeAtual, dados);
+}
