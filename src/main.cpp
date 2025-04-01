@@ -196,10 +196,16 @@ int primCentroPokemonMaisProximo(list<Aresta> grafo[], int vertices, int origem,
 
         // Verifica se a cidade atual possui um Centro Pokémon
         if (dados[atual].pc) {
+        	
+        	if (distancia[atual] == 0){
+				cout << "sua cidade ja contem centro pokemon" << endl;
+			}
+			else{
             // Se encontrar um Centro Pokémon, exibe a cidade e a distância
             cout << "O Centro Pokemon mais proximo está na cidade: " << dados[atual].nome << endl;
             cout << "Distancia: " << distancia[atual] << endl;
             return distancia[atual]; // Retorna a distância encontrada
+			}
         }
 
         // Atualiza as distâncias para as cidades vizinhas
@@ -235,11 +241,11 @@ void buscarCentroPokemonMaisProximo() {
     }
 
     int cidadeAtual;
-    cout << "Digite o código da sua cidade atual: ";
+    cout << "Digite o codigo da sua cidade atual: ";
     cin >> cidadeAtual;
 
     if (cidadeAtual < 1 || cidadeAtual > ncidades) {
-        cout << "Código de cidade inválido!" << endl;
+        cout << "Codigo de cidade inválido!" << endl;
         return;
     }
 
@@ -249,7 +255,7 @@ void buscarCentroPokemonMaisProximo() {
     list<Aresta> grafoLista[50];
     converterParaListaAdjacencia(grafoLista, grafo, ncidades);
 
-    // Chamar o algoritmo de Prim adaptado
+    // Chamar o algoritmo de Prim
     primCentroPokemonMaisProximo(grafoLista, ncidades, cidadeAtual, dados);
 }
 
