@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>	   // Biblioteca utilizada para manipulação de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
+#include <cstring> // Biblioteca utilizada para Strings
 
 using namespace std;
 
@@ -37,8 +38,13 @@ void cadastrarCidade()
 		cout << "Nome da cidade " << i + 1 << ": ";
 		getline(cin.ignore(), dados[i].nome);
 
+		dados[i].codigo = i + 1;
+		cout << "O codigo da cidade " << i + 1 << ": " << cout << dados[i].codigo;
+		
+		/*
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
+		*/
 
 		// Verifica se o código está dentro do intervalo válido
 		while (dados[i].codigo < 1 || dados[i].codigo > ncidades)
