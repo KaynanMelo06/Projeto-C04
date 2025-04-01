@@ -12,6 +12,7 @@ struct dadoscidade // Estrutura para armazenar os dados das cidades
 };
 
 // Variaveis globais
+<<<<<<< HEAD
 int ncidades = 0; //Quantidade de cidades cadastradas.
 dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades.
 bool achou = false;
@@ -26,6 +27,18 @@ void cadastrarCidade()
 
 	ncidades = ncidades + temp; // soma da quantidade de cidades novas com a quantidade de cidades já cadastradas.
 
+=======
+int ncidades = 0;
+dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades
+
+void cadastrarCidade()
+{
+	char simnao; // Para armazenar a resposta S/N
+
+	cout << "Digite o numero de cidades: " << endl;
+	cin >> ncidades;
+
+>>>>>>> 907d640239d288075773a594e498cb14aefd02e3
 	while (ncidades <= 0) // Verifica se o numero de cidades é valido
 	{
 		cout << "Numero de cidades invalido, digite novamente: " << endl;
@@ -35,7 +48,11 @@ void cadastrarCidade()
 	for (int i = 0; i < ncidades; i++)
 	{
 		cout << "Nome da cidade " << i + 1 << ": ";
+<<<<<<< HEAD
 		getline(cin >> ws, dados[i].nome); // Jeito de utilizar strings. WS = cin.ignore().
+=======
+		getline(cin.ignore(), dados[i].nome);
+>>>>>>> 907d640239d288075773a594e498cb14aefd02e3
 
 		cout << "O codigo da cidade " << i + 1 << ": ";
 		cin >> dados[i].codigo;
@@ -65,9 +82,10 @@ void cadastrarCidade()
 
 void cadastrarEstrada()
 {
-    // Criar e inicializar a matriz de adjacência com -1
-    int grafo[ncidades][ncidades];
+	// Criar e inicializar a matriz de adjacência com -1
+	int grafo[ncidades][ncidades];
 
+<<<<<<< HEAD
     for (int i = 0; i < ncidades; i++)
     {
         for (int j = 0; j < ncidades; j++)
@@ -113,6 +131,53 @@ void cadastrarEstrada()
         }
         cout << endl;
     }
+=======
+	for (int i = 0; i < ncidades; i++)
+	{
+		for (int j = 0; j < ncidades; j++)
+		{
+			grafo[i][j] = -1; // Inicializa todas as conexões como -1
+		}
+	}
+
+	char continuar;
+	do
+	{
+		int cidade1, cidade2, distancia;
+
+		cout << "Digite o codigo da primeira cidade: ";
+		cin >> cidade1;
+		cout << "Digite o codigo da segunda cidade: ";
+		cin >> cidade2;
+		cout << "Digite a distancia entre as cidades: ";
+		cin >> distancia;
+
+		if (cidade1 >= 0 && cidade1 < ncidades && cidade2 >= 0 && cidade2 < ncidades)
+		{
+			grafo[cidade1][cidade2] = distancia;
+			grafo[cidade2][cidade1] = distancia; // Para grafos não direcionados
+		}
+		else
+		{
+			cout << "Codigos de cidades invalidos. Tente novamente." << endl;
+		}
+
+		cout << "Deseja cadastrar outra estrada? (S/N): ";
+		cin >> continuar;
+
+	} while (continuar == 'S' || continuar == 's');
+
+	// Exibir a matriz de adjacência
+	cout << "Matriz de Adjacencia:" << endl;
+	for (int i = 0; i < ncidades; i++)
+	{
+		for (int j = 0; j < ncidades; j++)
+		{
+			cout << grafo[i][j] << " ";
+		}
+		cout << endl;
+	}
+>>>>>>> 907d640239d288075773a594e498cb14aefd02e3
 }
 
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)

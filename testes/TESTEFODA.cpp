@@ -10,8 +10,7 @@ using namespace std;
 struct dadoscidade {
     int codigo;
     string nome;
-    bool possuiCentroPokemon;
-    vector<int> cidadesAdjacentes; // Lista de códigos das cidades adjacentes
+    bool pc; // Indica se possui centro Pokémon
 };
 
 // Variáveis globais
@@ -31,34 +30,41 @@ void inicializarMatrizAdjacencia() {
 
 // Função para cadastrar cidades
 void cadastrarCidade() {
-    cout << "Digite o número de cidades a cadastrar: ";
-    int n;
-    cin >> n;
+    char simnao; // Para armazenar a resposta S/N
 
-    while (n <= 0 || numCidades + n > MAX_CIDADES) {
-        cout << "Número inválido. Digite novamente: ";
-        cin >> n;
+    cout << "Digite o número de cidades: " << endl;
+    cin >> numCidades;
+
+    while (numCidades <= 0 || numCidades > MAX_CIDADES) { // Verifica se o número de cidades é válido
+        cout << "Número de cidades inválido, digite novamente: " << endl;
+        cin >> numCidades;
     }
 
-    for (int i = 0; i < n; i++) {
-        cout << "Cidade " << (numCidades + 1) << ":" << endl;
+    for (int i = 0; i < numCidades; i++) {
+        cout << "Nome da cidade " << i + 1 << ": ";
+        getline(cin >> ws, cidades[i].nome); // Jeito de utilizar strings. WS = cin.ignore().
 
-        cout << "Digite o nome da cidade: ";
-        cin.ignore();
-        getline(cin, cidades[numCidades].nome);
+        cout << "O código da cidade " << i + 1 << ": ";
+        cin >> cidades[i].codigo;
 
-        cout << "Digite o código da cidade: ";
-        cin >> cidades[numCidades].codigo;
+        cout << "Essa cidade possui centro Pokémon: S/N? " << endl;
+        cin >> simnao;
 
-        char possuiCP;
-        cout << "A cidade possui centro Pokémon? (S/N): ";
-        cin >> possuiCP;
-
-        cidades[numCidades].possuiCentroPokemon = (possuiCP == 'S' || possuiCP == 's');
-        numCidades++;
+        if (simnao == 'S' || simnao == 's') {
+            cidades[i].pc = true;
+        } else {
+            cidades[i].pc = false;
+        }
     }
 
-    cout << "Cidades cadastradas com sucesso!" << endl;
+    system("CLS");
+
+    // Exibir as cidades cadastradas (teste)
+    for (int i = 0; i < numCidades; i++) {
+        cout << "Cidade " << i + 1 << ": " << cidades[i].nome << endl;
+        cout << "Código: " << cidades[i].codigo << endl;
+        cout << "Possui CP: " << (cidades[i].pc ? "Sim" : "Não") << endl;
+    }
 }
 
 // Função para cadastrar estradas
@@ -148,7 +154,7 @@ void buscarCentroPokemonMaisProximo() {
     int idxCentro = -1;
 
     for (int i = 0; i < numCidades; i++) {
-        if (cidades[i].possuiCentroPokemon && distancia[i] < menorDist) {
+        if (cidades[i].pc && distancia[i] < menorDist) {
             menorDist = distancia[i];
             idxCentro = i;
         }
@@ -166,7 +172,7 @@ void buscarCentroPokemonMaisProximo() {
         for (int at = idxCentro; at != -1; at = anterior[at]) {
             rota.push_back(at);
         }
-        for (auto it = rota.rbegin(); it != rota.rend(); ++it) {
+        for (auto it = rota.begin(); it != rota.rend(); ++it) {
             cout << cidades[*it].nome << " ";
         }
         cout << endl;
