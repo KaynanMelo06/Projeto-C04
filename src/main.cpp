@@ -47,7 +47,16 @@ void cadastrarCidade()
 		
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
-		
+		//checar se codigo ja foi utilizado
+		for (int j = 0; j < i; j++)
+		{
+			if (dados[i].codigo == dados[j].codigo)
+			{
+				cout << "Codigo ja utilizado. digite novamente: " << endl;
+				cin >> dados[i].codigo;
+				j = -1;
+			}
+		}
 
 		while (dados[i].codigo < 1 || dados[i].codigo > ncidades)
 		{
