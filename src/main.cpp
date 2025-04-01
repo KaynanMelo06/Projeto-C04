@@ -41,13 +41,8 @@ void cadastrarCidade()
 		getline(cin.ignore(), dados[i].nome);
 
 		dados[i].codigo = i + 1;
-<<<<<<< HEAD
 		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo << endl;
 
-=======
-		cout << "O codigo da cidade " << i + 1 << ": " << dados[i].codigo;
-		
->>>>>>> 757c95700ba3f3b106fee25b5f66809879ef366b
 		/*
 		cout << "O codigo da cidade " << i + 1 << " entre 1 e " << ncidades << ": ";
 		cin >> dados[i].codigo;
@@ -102,7 +97,6 @@ void cadastrarEstrada()
 	do
 	{
 		int cidade1, cidade2, distancia;
-		
 
 		cout << "Digite o codigo da primeira cidade: ";
 		cin >> cidade1;
@@ -138,7 +132,7 @@ void cadastrarEstrada()
 	}
 }
 
-//Função que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessário.
+// Função que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessário.
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
 	if (baixo <= alto && achou == false)
@@ -152,11 +146,11 @@ int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 		}
 		else if (x < dados[meio].codigo)
 		{
-			return binaria_recursiva(dados, x, baixo, meio - 1); //Recursividade, dividindo o vetor da metade pra baixo.
+			return binaria_recursiva(dados, x, baixo, meio - 1); // Recursividade, dividindo o vetor da metade pra baixo.
 		}
 		else if (x > dados[meio].codigo)
 		{
-			return binaria_recursiva(dados, x, meio + 1, alto);//Dividindo o vetor da metade pra cima.
+			return binaria_recursiva(dados, x, meio + 1, alto); // Dividindo o vetor da metade pra cima.
 		}
 	}
 }
@@ -193,15 +187,32 @@ void buscarCentroPokemonMaisProximo()
 	}
 	else
 	{
-		cout << "Cidades próximas: "
-		achou = false;
+		if (dados[indice].pc == true)
+		{
+			char simnao;
+			cout << dados[indice].nome << " ja possui um centro pokemon!" << endl;
+			cout << "Deseja encontrar outro? (S/N)" << endl;
+			cin >> simnao;
+
+			if (simnao == 'S' || simnao == 's')
+			{
+				cout << "puxar funcao" << endl;
+			}
+			else
+			{
+				cout << "__________________________________________________" << endl;
+				return;
+			}
+		}
+		else
+		{
+			cout << "Cidades proximas: " << endl;
+			achou = false;
+		}
 	}
-<<<<<<< HEAD
 
 	/*
 	se ja estiver na cidade com CP, perguntar se deseja encontrar outra*/
-=======
->>>>>>> 757c95700ba3f3b106fee25b5f66809879ef366b
 }
 
 void cadastrarPokemon()
