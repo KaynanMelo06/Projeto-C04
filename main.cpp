@@ -161,6 +161,13 @@ void buscarCentroPokemonMaisProximo()
 {
 	int ID, indice;
 	
+	if (ncidades <= 0) { // Verifica se há cidades cadastradas
+        cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
+        return;
+    } 
+		
+	cout << "Cidades cadastradas: " << endl;
+	
 	for (int i = 0; i < ncidades; i++) // Para ver as cidades cadastradas
 	{
 		cout << "Cidade " << i + 1 << ": " << dados[i].nome << endl;
