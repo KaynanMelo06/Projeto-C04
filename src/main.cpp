@@ -8,6 +8,13 @@
 
 using namespace std;
 
+struct Pokemon { // Struct para os dados dos pokemons
+	string nome;
+	string tipo;
+	int num;
+	int x, y; // Coordenadas do pokemon no mapa
+};
+
 struct dadoscidade // Estrutura para armazenar os dados das cidades
 {
 	int codigo;
@@ -19,6 +26,7 @@ struct dadoscidade // Estrutura para armazenar os dados das cidades
 int ncidades = 0;	   // Quantidade de cidades cadastradas.
 dadoscidade dados[50]; // Atribui a struct a variavel dados, com tamanho maximo de 50 cidades.
 bool achou = false;
+int mapa[10][10];
 int grafo[50][50]; // Criar e inicializar a matriz de adjacencia
 
 void cadastrarCidade()
@@ -94,11 +102,11 @@ void cadastrarEstrada()
 		cout << "Codigo: " << dados[i].codigo << endl;
 		cout << " " << endl;
 	}
+	int cidade1, cidade2, distancia;
 
 	char continuar;
 	do
 	{
-		int cidade1, cidade2, distancia;
 
 		cout << "Digite o codigo da primeira cidade: ";
 		cin >> cidade1;
@@ -137,6 +145,8 @@ void cadastrarEstrada()
 }
 
 // FunÃ§Ã£o que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessÃ¡rio.
+// nÃ£o ta sendo usado, mas Ã© bom saber que existe.
+
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
 	if (baixo <= alto && achou == false)
@@ -164,7 +174,7 @@ struct Aresta
 	int origem, destino, peso;
 };
 
-// Funï¿½ï¿½o para converter a matriz de adjacï¿½ncia para uma lista de adjacï¿½ncia
+// Funcao para converter a matriz de adjacencia para uma lista de adjacencia
 void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50][50], int ncidades)
 {
 	for (int i = 0; i < ncidades; i++)
@@ -172,75 +182,128 @@ void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50]
 		for (int j = 0; j < ncidades; j++)
 		{
 			if (grafoMatriz[i][j] != -1)
-			{ // Apenas adiciona arestas vï¿½lidas
+			{ // Apenas adiciona arestas validas
 				grafoLista[i].push_back({i, j, grafoMatriz[i][j]});
 			}
 		}
 	}
 }
 
-// Algoritmo de Prim adaptado para encontrar o Centro Pokï¿½mon mais prï¿½ximo
-int primCentroPokemonMaisProximo(list<Aresta> grafo[], int vertices, int origem, dadoscidade dados[])
+// fuÃ§Ã£o dikstra para encontrar a distancia mais curta entre dois pontos
+// onde o prim ja nos deu o ponto de destino mais proximo
+// e o dijkstra vai nos dar a distancia entre o ponto de origem e o ponto de destino mais proximo
+//Basicamente se usar apenas o prim, em alguns casos ele nos da a distancia errada, porem o destino que ele retorna esta sempre correto
+// Por isso o uso do dijkstra
+
+int dijkstra_lista(list<Aresta>grafo[], int vertices, int origem, int destino)
 {
-	// Vetor para marcar os vï¿½rtices visitados
+    bool visitado[vertices];
+    int pais [vertices], distancia[vertices], atual;
+
+    for(int i = 0; i < vertices; i++)
+    {
+        visitado[i] = false;
+        pais[i] = -1;
+        distancia[i] = INF;
+    }
+    distancia[origem] = 0;
+    atual = origem;
+
+    while(!visitado[atual])
+    {
+        visitado[atual] = true;
+        
+        list<Aresta>::iterator it; 
+        
+        for(it = grafo[atual].begin(); it != grafo[atual].end(); it++)
+        {
+            int d = it->destino, p = it->peso;
+            
+            if(!visitado[d] && distancia[atual] + p < distancia[d])
+            {
+                distancia[d] = distancia[atual] + p;
+                pais[d] = atual;
+            }
+        
+        }
+        int menor_peso = INF;
+        for(int i = 0; i< vertices; i++)
+        {
+            if(!visitado[i] && distancia[i] < menor_peso)
+            {
+                menor_peso = distancia[i];
+                atual = i;
+            }
+        }
+    }
+    atual = destino;
+    
+    return distancia[destino];
+}
+
+// Algoritmo de Prim adaptado para encontrar o Centro Pokemon mais proximo
+int primCentroPokemonMaisProximo(list<Aresta> grafo[], int vertices, int origem, dadoscidade dados[])
+{	
+	// Vetor para marcar os vertices visitados
 	bool visitado[vertices];
-	// Vetor para armazenar as menores distï¿½ncias de cada vï¿½rtice
+	// Vetor para armazenar as menores distancias de cada vertice
 	int distancia[vertices], atual;
 
-	// Inicializa os vetores de visitados e distï¿½ncias
+	// Inicializa os vetores de visitados e distancias
 	for (int i = 0; i < vertices; i++)
 	{
-		visitado[i] = false; // Nenhum vï¿½rtice foi visitado ainda
-		distancia[i] = INF;	 // Define todas as distï¿½ncias como "infinito"
+		visitado[i] = false; // Nenhum vertice foi visitado ainda
+		distancia[i] = INF;	 // Define todas as distancias como "infinito"
 	}
 
-	// Define o vï¿½rtice de origem e sua distï¿½npcia inicial como 0
+	// Define o vertice de origem e sua distancia inicial como 0
 	atual = origem;
 	distancia[atual] = 0;
 
-	// Enquanto houver vï¿½rtices nï¿½o visitados
+	// Enquanto houver vertices nao visitados
 	while (!visitado[atual])
 	{
-		visitado[atual] = true; // Marca o vï¿½rtice atual como visitado
+		visitado[atual] = true; // Marca o vertice atual como visitado
 
-        // Verifica se a cidade atual possui um Centro Pokémon
-        if (dados[atual].pc) {
-            // Se encontrar um Centro Pokémon, exibe a cidade e a distância
-            cout << "O Centro Pokemon mais proximo está na cidade: " << dados[atual].nome << endl;
-            cout << "Distancia: " << distancia[atual] << endl;
-            return distancia[atual]; // Retorna a distância encontrada
-        }
+		// Verifica se a cidade atual possui um Centro Pokemon
+		if (dados[atual].pc)
+		{
+			// Se encontrar um Centro Pokemon, exibe a cidade e a distancia
+			cout << "O Centro Pokemon mais proximo esta na cidade: " << dados[atual].nome << endl;
+			cout << "distancia: " << dijkstra_lista(grafo, vertices, origem, atual) << endl; // Chama o dijkstra para obter a menor dintÃ¢ncia
+			return distancia[atual]; // Retorna a distancia encontrada
+		}
 
-		// Atualiza as distï¿½ncias para as cidades vizinhas
+		// Atualiza as distancias para as cidades vizinhas
 		list<Aresta>::iterator it;
 		for (it = grafo[atual].begin(); it != grafo[atual].end(); it++)
 		{
 			int d = it->destino, p = it->peso;
-			// Se o vizinho nï¿½o foi visitado e a nova distï¿½ncia ï¿½ menor, atualiza
+			// Se o vizinho nao foi visitado e a nova distancia e menor, atualiza
 			if (!visitado[d] && p < distancia[d])
 			{
 				distancia[d] = p;
 			}
 		}
 
-		// Encontra o prï¿½ximo vï¿½rtice com a menor distï¿½ncia
+		// Encontra o proximo vertice com a menor distancia
 		int menor_distancia = INF;
 		for (int i = 0; i < vertices; i++)
 		{
 			if (!visitado[i] && distancia[i] < menor_distancia)
 			{
 				menor_distancia = distancia[i];
-				atual = i; // Atualiza o prï¿½ximo vï¿½rtice a ser visitado
+				atual = i; // Atualiza o proximo vertice a ser visitado
 			}
 		}
 	}
 
-	// Se nenhum Centro Pokï¿½mon for encontrado, exibe mensagem
+	// Se nenhum Centro Pokemon for encontrado, exibe mensagem
 	cout << "Nenhum Centro Pokemon encontrado acessivel a partir da cidade atual." << endl;
 	return -1; // Retorna -1 para indicar falha
 }
 
-// Funï¿½ï¿½o para buscar o Centro Pokï¿½mon mais prï¿½ximo
+// Funcao para buscar o Centro Pokemon mais proximo
 void buscarCentroPokemonMaisProximo()
 {
 	if (ncidades <= 0)
@@ -249,30 +312,83 @@ void buscarCentroPokemonMaisProximo()
 		return;
 	}
 
-    int cidadeAtual;
-    cout << "Digite o código da sua cidade atual: ";
-    cin >> cidadeAtual;
+	int cidadeAtual;
+	cout << "Digite o codigo da sua cidade atual: ";
+	cin >> cidadeAtual;
 
-    if (cidadeAtual < 1 || cidadeAtual > ncidades) {
-        cout << "Código de cidade inválido!" << endl;
-        return;
-    }
+	if (cidadeAtual < 1 || cidadeAtual > ncidades)
+	{
+		cout << "Codigo de cidade invalido!" << endl;
+		return;
+	}
 
-	cidadeAtual--; // Ajustar para ï¿½ndice da matriz (0-based)
+	cidadeAtual--; // Ajustar para indice da matriz (0-based)
 
-	// Converter a matriz de adjacï¿½ncia para uma lista de adjacï¿½ncia
+	// Converter a matriz de adjacencia para uma lista de adjacencia
 	list<Aresta> grafoLista[50];
 	converterParaListaAdjacencia(grafoLista, grafo, ncidades);
 
-    // Chamar o algoritmo de Prim adaptado
-    primCentroPokemonMaisProximo(grafoLista, ncidades, cidadeAtual, dados);
+	// Chamar o algoritmo de Prim adaptado
+	primCentroPokemonMaisProximo(grafoLista, ncidades, cidadeAtual, dados);
 }
 
 void cadastrarPokemon()
 {
-	cout << "cadastrar pokemon" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
+	Pokemon poke[100]; // struct com os dados dos pokemons
+	int i = 0, x, y;
+	char continuar;
+	cout << "cadastrar pokemons" << endl;
+	do {
+		cout << "Digite o nome do pokemon: ";
+		cin.ignore(); // limpa o \n
+		getline(cin, poke[i].nome);
+	
+		cout << "Digite o tipo do pokemon: ";
+		// NÃ£o precisa de outro ignore aqui se vocÃª jÃ¡ usou um acima
+		getline(cin, poke[i].tipo);
+	
+		cout << "Digite o numero do pokemon: ";
+		cin >> poke[i].num; 
+	
+		cout << "Digite o mapa do pokemon (coordenadas x,y, maximo de 10 cada numero): " << endl; // caso for tirar o cout da matriz tirar o limite
+		cin >> x >> y;
+	
+		poke[i].x = x;
+		poke[i].y = y;
+	
+		mapa[x - 1][y - 1] = 1; // marca posiÃ§Ã£o no mapa
+	
+		i++;
+
+		cout << "Deseja cadastrar outro pokemon? (S/N): ";
+		cin >> continuar;
+
+	} while (continuar == 'S' || continuar == 's');
+	
+	for (int j = 0; j < i; j++) // For para mostrar as informacoes
+	{
+		cout << "Pokemon " << j + 1 << ": " << poke[j].nome << endl;
+		cout << "Tipo: " << poke[j].tipo << endl;
+		cout << "Numero: " << poke[j].num << endl;
+		cout << "Coordenadas: " << endl;
+		cout << "( " <<poke[j].x << "," << poke[j].y << " )" << endl;
+		cout << "------------------------------" << endl;
+		
+	}
+
+	cout << "Mapa pokemon: " << endl;
+		
+	for (int k = 0; k < 10; k++) // Caso for tirar a matriz remover essa for
+		{
+			cout << endl;
+
+			for (int l = 0; l < 10; l++){
+				
+				cout << mapa[k][l];
+				
+			}
+		}
+	cout << endl;
 	cout << "------------------------------" << endl;
 }
 
@@ -319,7 +435,6 @@ void encontrarPokemonProximos()
 int main()
 {
 	bool acabar = false;
-
 	for (int i = 0; i < 50; i++)
 	{
 		for (int j = 0; j < 50; j++)
@@ -327,6 +442,14 @@ int main()
 			grafo[i][j] = -1; // Inicializa todas as conexÃµes como -1
 		}
 	}
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			mapa[i][j] = 0; // Inicializa todo mapa como 0
+		}
+	}
+
 
 	do
 	{
