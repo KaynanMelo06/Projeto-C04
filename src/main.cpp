@@ -1,10 +1,10 @@
 #include <iostream>
-#include <list>	   // Biblioteca utilizada para manipulaÃ§Ã£o de listas
+#include <list>	   // Biblioteca utilizada para manipulaa§a£o de listas
 #include <cstdlib> // Biblioteca utilizada para limpar o terminal, com o comando system("CLS");
 #include <cstring> // Biblioteca utilizada para Strings
 #include <climits> // Biblioteca para definir um valor maximo muito alto (ex. INT_MAX)
 #include <map>	   // Biblioteca para mapear os tipos de pokemons
-#include <string> // Biblioteca para manipulaÃ§Ã£o de strings
+#include <string> // Biblioteca para manipulaa§a£o de strings
 
 
 #define INF 999999
@@ -18,14 +18,14 @@ struct Pokemon { // Struct para os dados dos pokemons
 	int x, y; // Coordenadas do pokemon no mapa
 };
 
-// Nova struct para nó da árvore
+// Nova struct para no da arvore
 struct NodePokemon {
 	Pokemon info;
 	NodePokemon* esquerda;
 	NodePokemon* direita;
 };
 
-// Ponteiro global para a raiz da árvore de pokémons
+// Ponteiro global para a raiz da arvore de pokemons
 NodePokemon* raizPokemon = NULL;
 
 
@@ -56,7 +56,7 @@ void cadastrarCidade()
 
 	ncidades = ncidades + temp;
 
-	while (ncidades <= 0) // Verifica se o numero de cidades Ã© valido1
+	while (ncidades <= 0) // Verifica se o numero de cidades e valido1
 	{
 		cout << "Numero de cidades invalido, digite novamente: " << endl;
 		cin >> ncidades;
@@ -108,7 +108,7 @@ void cadastrarEstrada()
 {
 
 	if (ncidades <= 0)
-	{ // Verifica se hÃ¡ cidades cadastradas
+	{ // Verifica se ha cidades cadastradas
 		cout << "Nenhuma cidade cadastrada. Cadastre cidades primeiro!" << endl;
 		return;
 	}
@@ -135,8 +135,8 @@ void cadastrarEstrada()
 
 		if (cidade1 >= 0 && cidade1 <= ncidades && cidade2 >= 0 && cidade2 <= ncidades)
 		{
-			grafo[cidade1 - 1][cidade2 - 1] = distancia; //-1 Por conta da matriz comeÃ§ar em 0 (ISSO QUE EU TAVA FALANDO KAYNAN, CARAIO)
-			grafo[cidade2 - 1][cidade1 - 1] = distancia; // Grafo nÃ£o direcionado
+			grafo[cidade1 - 1][cidade2 - 1] = distancia; //-1 Por conta da matriz comecar em 0
+			grafo[cidade2 - 1][cidade1 - 1] = distancia; // Grafo nao direcionado
 		}
 		else
 		{
@@ -149,7 +149,7 @@ void cadastrarEstrada()
 
 	} while (continuar == 'S' || continuar == 's');
 
-	// Exibir a matriz de adjacÃªncia
+	// Exibir a matriz de adjacencia
 	cout << "Matriz de Adjacencia:" << endl;
 	for (int i = 0; i < ncidades; i++)
 	{
@@ -161,8 +161,8 @@ void cadastrarEstrada()
 	}
 }
 
-// FunÃ§Ã£o que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessÃ¡rio.
-// nÃ£o ta sendo usado, mas Ã© bom saber que existe.
+// Funcao que procura um termo dentro de um vetor dividindo ele ao meio quantas vezes necessario.
+// nao ta sendo usado, mas e bom saber que existe.
 
 int binaria_recursiva(dadoscidade dados[], int x, int baixo, int alto)
 {
@@ -207,7 +207,7 @@ void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50]
 }
 
 /*
-funÃ§Ã£o dikstra para encontrar a distancia mais curta entre dois pontos
+funcao dikstra para encontrar a distancia mais curta entre dois pontos
 onde o prim ja nos deu o ponto de destino mais proximo
 e o dijkstra vai nos dar a distancia entre o ponto de origem e o ponto de destino mais proximo
 Basicamente se usar apenas o prim, em alguns casos ele nos da a distancia errada, porem o destino que ele retorna esta sempre correto
@@ -288,7 +288,7 @@ int primCentroPokemonMaisProximo(list<Aresta> grafo[], int vertices, int origem,
 		{
 			// Se encontrar um Centro Pokemon, exibe a cidade e a distancia
 			cout << "O Centro Pokemon mais proximo esta na cidade: " << dados[atual].nome << endl;
-			cout << "distancia: " << dijkstra_lista(grafo, vertices, origem, atual) << endl; // Chama o dijkstra para obter a menor dintÃ¢ncia
+			cout << "distancia: " << dijkstra_lista(grafo, vertices, origem, atual) << endl; // Chama o dijkstra para obter a menor dintancia
 			return distancia[atual]; // Retorna a distancia encontrada
 		}
 
@@ -368,14 +368,14 @@ void cadastrarPokemon()
 {
 	Pokemon p;
 	char continuar;
-	cout << "Cadastrar Pokémon" << endl;
+	cout << "Cadastrar Pokemon" << endl;
 	do {
 		cout << "Nome: ";
 		cin.ignore();
 		getline(cin, p.nome);
 		cout << "Tipo: ";
 		getline(cin, p.tipo);
-		cout << "Número: ";
+		cout << "Numero: ";
 		cin >> p.num;
 		cout << "Coordenadas (x y): ";
 		cin >> p.x >> p.y;
@@ -386,8 +386,8 @@ void cadastrarPokemon()
 	} while (continuar == 'S' || continuar == 's');
 }
 
-// Remoção por nome que é chamado em removerPokemon()
-// A função percorre a árvore e remove o nó correspondente ao nome do Pokémon
+// Remocao por nome que e chamado em removerPokemon()
+// A funcao percorre a arvore e remove o no correspondente ao nome do Pokemon
 bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
 	if (!raiz) return false;
 	if (nome < raiz->info.nome) return removerPokemonPorNome(raiz->esquerda, nome);
@@ -409,44 +409,86 @@ bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
 
 void removerPokemon() {
 	string nome;
-	cout << "Remover Pokémon - Digite o nome: ";
+	cout << "Remover Pokemon - Digite o nome: ";
 	cin.ignore();
 	getline(cin, nome);
 	if (removerPokemonPorNome(raizPokemon, nome))
 		cout << nome << " removido com sucesso.\n";
 	else
-		cout << nome << " não encontrado.\n";
+		cout << nome << " nao encontrado.\n";
 }
 
-// Impressão em ordem
+// Impressao em ordem
 void listarEmOrdem(NodePokemon* raiz) {
 	if (raiz) {
 		listarEmOrdem(raiz->esquerda);
 		cout << "Nome: " << raiz->info.nome << ", Tipo: " << raiz->info.tipo
-			 << ", Nº: " << raiz->info.num << ", Local: (" << raiz->info.x << "," << raiz->info.y << ")\n";
+			 << ", Num: " << raiz->info.num << ", Local: (" << raiz->info.x << "," << raiz->info.y << ")\n";
 		listarEmOrdem(raiz->direita);
 	}
 }
 
 void listarPokemonAlfabetico() {
-	cout << "Pokémons em ordem alfabética:\n";
+	cout << "Pokemons em ordem alfabetica:\n";
 	listarEmOrdem(raizPokemon);
 }
 
-void listarPokemonTipo()
-{
-	cout << "listar pokemon tipo" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
-	cout << "------------------------------" << endl;
+// Funcoes auxiliares:
+void listarPorTipo(NodePokemon* raiz, const string& tipo, int& cont) {
+    if (!raiz) return;
+    listarPorTipo(raiz->esquerda, tipo, cont);
+    if (raiz->info.tipo == tipo) {
+        cout << "- " << raiz->info.nome
+             << " (Numero: " << raiz->info.num 
+             << ", Coords: " << raiz->info.x << "," << raiz->info.y << ")\n";
+        cont++;
+    }
+    listarPorTipo(raiz->direita, tipo, cont);
 }
 
-void contarPokemonTipo()
-{
-	cout << "contar pokemon tipo" << endl;
-	cout << "------------------------------" << endl;
-	cout << "*Funcionalidade em construcao*  RETORNANDO PARA O MENU" << endl;
-	cout << "------------------------------" << endl;
+void contarPorTipo(NodePokemon* raiz, const string& tipo, int& cont) {
+    if (!raiz) return;
+    if (raiz->info.tipo == tipo) cont++;
+    contarPorTipo(raiz->esquerda, tipo, cont);
+    contarPorTipo(raiz->direita, tipo, cont);
+}
+
+// Implementacao de listarPokemonTipo():
+void listarPokemonTipo() {
+    if (!raizPokemon) {
+        cout << "Nenhum Pokemon cadastrado.\n";
+        return;
+    }
+    string tipoBusca;
+    cout << "Digite o tipo do Pokemon: ";
+    cin.ignore(100000, '\n');
+    getline(cin, tipoBusca);
+
+    cout << "\nPokemons do tipo '" << tipoBusca << "':\n";
+    cout << "------------------------------\n";
+    int cont = 0;
+    listarPorTipo(raizPokemon, tipoBusca, cont);
+    if (cont == 0) {
+        cout << "  * Nenhum Pokemon do tipo '" << tipoBusca << "' encontrado.\n";
+    }
+    cout << "------------------------------\n\n";
+}
+
+// Implementacao de contarPokemonTipo():
+void contarPokemonTipo() {
+    if (!raizPokemon) {
+        cout << "Nenhum Pokemon cadastrado.\n";
+        return;
+    }
+    string tipoBusca;
+    cout << "Digite o tipo do Pokemon: ";
+    cin.ignore(100000, '\n');
+    getline(cin, tipoBusca);
+
+    int cont = 0;
+    contarPorTipo(raizPokemon, tipoBusca, cont);
+    cout << "\nTotal de Pokemon(s) do tipo '" 
+         << tipoBusca << "': " << cont << "\n\n";
 }
 
 void encontrarPokemonProximos()
@@ -464,7 +506,7 @@ int main()
 	{
 		for (int j = 0; j < 50; j++)
 		{
-			grafo[i][j] = -1; // Inicializa todas as conexÃµes como -1
+			grafo[i][j] = -1; // Inicializa todas as conexoes como -1
 		}
 	}
 	for (int i = 0; i < 10; i++)
