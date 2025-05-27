@@ -1,25 +1,28 @@
-// Adições ao topo do arquivo (após os includes existentes)
+// Adi  es ao topo do arquivo (ap s os includes existentes)
+#include <iostream>
 #include <map>
+#include <string>
+using namespace std;
 
-// Struct original já existente: FEITO
-struct Pokemon {
+// Struct original j  existente: FEITO
+struct Pokemon { // Struct para os dados dos pokemons
 	string nome;
 	string tipo;
 	int num;
-	int x, y;
+	int x, y; // Coordenadas do pokemon no mapa
 };
 
-// Nova struct para nó da árvore FEITO
+// Nova struct para n  da  rvore FEITO
 struct NodePokemon {
 	Pokemon info;
 	NodePokemon* esquerda;
 	NodePokemon* direita;
 };
 
-// Ponteiro global para a raiz da árvore de pokémons FEITO
+// Ponteiro global para a raiz da  rvore de pok mons FEITO
 NodePokemon* raizPokemon = nullptr;
 
-// Inserção por nome FEITO
+// Inser  o por nome FEITO
 void inserirPokemon(NodePokemon*& raiz, const Pokemon& p) {
 	if (!raiz) {
 		raiz = new NodePokemon{p, nullptr, nullptr};
@@ -29,18 +32,26 @@ void inserirPokemon(NodePokemon*& raiz, const Pokemon& p) {
 		inserirPokemon(raiz->direita, p);
 	}
 }
-
-// Impressão em ordem
+void listarEmOrdemtipo(NodePokemon* raiz, string tipo) {
+	string type;
+	if (raiz && type = tipo) {
+		listarEmOrdem(raiz->esquerda);
+		cout << "Nome: " << raiz->info.nome << ", Tipo: " << raiz->info.tipo
+			 << ", N : " << raiz->info.num << ", Local: (" << raiz->info.x << "," << raiz->info.y << ")\n";
+		listarEmOrdem(raiz->direita);
+	}
+}
+// Impress o em ordem
 void listarEmOrdem(NodePokemon* raiz) {
 	if (raiz) {
 		listarEmOrdem(raiz->esquerda);
 		cout << "Nome: " << raiz->info.nome << ", Tipo: " << raiz->info.tipo
-			 << ", Nº: " << raiz->info.num << ", Local: (" << raiz->info.x << "," << raiz->info.y << ")\n";
+			 << ", N : " << raiz->info.num << ", Local: (" << raiz->info.x << "," << raiz->info.y << ")\n";
 		listarEmOrdem(raiz->direita);
 	}
 }
 
-// Remoção por nome FEITO
+// Remo  o por nome FEITO
 bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
 	if (!raiz) return false;
 	if (nome < raiz->info.nome) return removerPokemonPorNome(raiz->esquerda, nome);
@@ -60,14 +71,14 @@ bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
 	return true;
 }
 
-// Contar pokémons de um tipo
+// Contar pok mons de um tipo
 int contarTipo(NodePokemon* raiz, const string& tipo) {
 	if (!raiz) return 0;
 	int cont = (raiz->info.tipo == tipo) ? 1 : 0;
 	return cont + contarTipo(raiz->esquerda, tipo) + contarTipo(raiz->direita, tipo);
 }
 
-// Mapear e imprimir pokémons por tipo
+// Mapear e imprimir pok mons por tipo
 void mapearPorTipo(NodePokemon* raiz, map<string, vector<Pokemon>>& mapaTipos) {
 	if (!raiz) return;
 	mapearPorTipo(raiz->esquerda, mapaTipos);
@@ -79,14 +90,14 @@ void mapearPorTipo(NodePokemon* raiz, map<string, vector<Pokemon>>& mapaTipos) {
 void cadastrarPokemon() {
 	Pokemon p;
 	char continuar;
-	cout << "Cadastrar Pokémon" << endl;
+	cout << "Cadastrar Pok mon" << endl;
 	do {
 		cout << "Nome: ";
 		cin.ignore();
 		getline(cin, p.nome);
 		cout << "Tipo: ";
 		getline(cin, p.tipo);
-		cout << "Número: ";
+		cout << "N mero: ";
 		cin >> p.num;
 		cout << "Coordenadas (x y): ";
 		cin >> p.x >> p.y;
@@ -100,18 +111,18 @@ void cadastrarPokemon() {
 // Substituir removerPokemon(): feito
 void removerPokemon() {
 	string nome;
-	cout << "Remover Pokémon - Digite o nome: ";
+	cout << "Remover Pok mon - Digite o nome: ";
 	cin.ignore();
 	getline(cin, nome);
 	if (removerPokemonPorNome(raizPokemon, nome))
 		cout << nome << " removido com sucesso.\n";
 	else
-		cout << nome << " não encontrado.\n";
+		cout << nome << " n o encontrado.\n";
 }
 
 // Substituir listarPokemonAlfabetico(): feito
 void listarPokemonAlfabetico() {
-	cout << "Pokémons em ordem alfabética:\n";
+	cout << "Pok mons em ordem alfab tica:\n";
 	listarEmOrdem(raizPokemon);
 }
 
@@ -122,7 +133,7 @@ void listarPokemonTipo() {
 	for (auto& par : mapaTipos) {
 		cout << "Tipo: " << par.first << endl;
 		for (auto& p : par.second)
-			cout << " - " << p.nome << " (Nº: " << p.num << ")\n";
+			cout << " - " << p.nome << " (N : " << p.num << ")\n";
 	}
 }
 
@@ -133,5 +144,5 @@ void contarPokemonTipo() {
 	cin.ignore();
 	getline(cin, tipo);
 	int total = contarTipo(raizPokemon, tipo);
-	cout << "Existem " << total << " pokémons do tipo " << tipo << ".\n";
+	cout << "Existem " << total << " pok mons do tipo " << tipoÂ <<Â ".\n";
 }
