@@ -1,7 +1,7 @@
 #include <iostream>
-#include <list>     // Biblioteca para manipulação de listas (lista de adjacência)
+#include <list>     
 #include <cstdlib>  // Biblioteca para system("CLS")
-#include <climits>  // Para definir valores máximos (ex. INT_MAX)
+#include <climits>  // Para definir valores máximos
 #include <string>   // Biblioteca para manipulação de strings
 #include <cmath>	// Biblioteca para manipulações manematicas
 
@@ -47,6 +47,7 @@ int ncidades = 0;                   // Quantidade de cidades cadastradas
 dadoscidade dados[50];              // Vetor de cidades (no máximo 50)
 int mapa[10][10];                   // "Mapa" 10x10 de Pokémons (0 = vazio, 1 = ocupado)
 int grafo[50][50];                  // Matriz de adjacência (no máximo 50 cidades)
+int idcidade = 0;
 
 // =========================
 // Funções de cadastro de Cidades e Estradas
@@ -67,18 +68,18 @@ void cadastrarCidade() {
     }
     ncidades = temp;
 
-    for (int i = 0; i < ncidades; i++) {
-        cout << "Nome da cidade " << i + 1 << ": ";
-        getline(cin, dados[i].nome);
+    for (idcidade; idcidade < ncidades; idcidade++) {
+        cout << "Nome da cidade " << idcidade + 1 << ": ";
+        getline(cin, dados[idcidade].nome);
 
-        dados[i].codigo = i + 1;
-        cout << "O codigo da cidade " << i + 1 << " sera: " << dados[i].codigo << endl;
+        dados[idcidade].codigo = idcidade + 1;
+        cout << "O codigo da cidade " << idcidade + 1 << " sera: " << dados[idcidade].codigo << endl;
 
         cout << "Essa cidade possui centro pokemon? (S/N): ";
         cin >> simnao;
         cin.ignore(100000, '\n');
 
-        dados[i].pc = (simnao == 'S' || simnao == 's');
+        dados[idcidade].pc = (simnao == 'S' || simnao == 's');
     }
 
     system("clear");
@@ -140,9 +141,6 @@ void cadastrarEstrada() {
     cout << endl;
 }
 
-// =========================
-// Conversão Matriz ? Lista de Adjacência
-// =========================
 struct Aresta {
     int origem, destino, peso;
 };
@@ -162,7 +160,6 @@ void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50]
 // Dijkstra (usando lista de adjacência)
 // =========================
 int dijkstra_lista(list<Aresta> grafoLista[], int vertices, int origem, int destino) {
-    // Como "vertices <= 50", podemos usar arrays fixos de tamanho 50
     bool visitado[50];
     int pais[50];
     int distanciaArr[50];
@@ -272,7 +269,7 @@ void buscarCentroPokemonMaisProximo() {
         cout << "Codigo de cidade invalido!\n";
         return;
     }
-    cidadeAtual--; // Ajusta para índice 0-based
+    cidadeAtual--; 
 
     // Converte a matriz para lista de adjacência
     static list<Aresta> grafoLista[50];
@@ -528,7 +525,8 @@ void cadastrarPokemon() {
 
         cout << "Cadastrar outro? (S/N): ";
         cin >> continuar;
-        cin.ignore(100000, '\n');
+
+
         cout << endl;
     } while (continuar == 'S' || continuar == 's');
 }
