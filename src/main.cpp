@@ -25,10 +25,8 @@ struct NodePokemon {
 };
 
 // Raízes das duas BSTs:
-//  - raizPorNome: ordenada pelo campo .nome
-//  - raizPorTipo: ordenada pelo campo .tipo (desempate por nome quando tipos iguais)
-NodePokemon* raizPorNome = nullptr;
-NodePokemon* raizPorTipo = nullptr;
+NodePokemon* raizPorNome = NULL;
+NodePokemon* raizPorTipo = NULL;
 // Função auxiliar para buscar um Pokémon por nome na árvore de tipo
 NodePokemon* buscarNodePorNome(NodePokemon* raiz, const string& nome);
 bool removerPokemonPorTipo(NodePokemon*&, const string&, const string&);
@@ -58,13 +56,13 @@ void cadastrarCidade() {
 
     cout << "Digite o numero de cidades: ";
     cin >> temp;
-    cin.ignore(100000, '\n'); // limpar buffer
+    cin.ignore();
 
     // Validação mínima
     while (temp <= 0) {
         cout << "Numero de cidades invalido, digite novamente: ";
         cin >> temp;
-        cin.ignore(100000, '\n');
+        cin.ignore();
     }
     ncidades = temp;
 
@@ -77,12 +75,12 @@ void cadastrarCidade() {
 
         cout << "Essa cidade possui centro pokemon? (S/N): ";
         cin >> simnao;
-        cin.ignore(100000, '\n');
+        cin.ignore();
 
         dados[idcidade].pc = (simnao == 'S' || simnao == 's');
     }
 
-    system("clear");
+    system("CLS");
 
     // Exibir para conferência
     for (int i = 0; i < ncidades; i++) {
@@ -114,7 +112,7 @@ void cadastrarEstrada() {
         cin >> cidade2;
         cout << "Digite a distancia entre as cidades: ";
         cin >> distancia;
-        cin.ignore(100000, '\n');
+        cin.ignore();
 
         // Validação de índice
         if (cidade1 >= 1 && cidade1 <= ncidades && cidade2 >= 1 && cidade2 <= ncidades) {
@@ -126,7 +124,7 @@ void cadastrarEstrada() {
 
         cout << "Deseja cadastrar outra estrada? (S/N): ";
         cin >> continuar;
-        cin.ignore(100000, '\n');
+        cin.ignore();
         cout << endl;
     } while (continuar == 'S' || continuar == 's');
 
@@ -149,7 +147,6 @@ void converterParaListaAdjacencia(list<Aresta> grafoLista[], int grafoMatriz[50]
     for (int i = 0; i < ncidades; i++) {
         for (int j = 0; j < ncidades; j++) {
             if (grafoMatriz[i][j] != -1) {
-                // Adiciona aresta (i ? j) com peso
                 grafoLista[i].push_back({i, j, grafoMatriz[i][j]});
             }
         }
@@ -178,9 +175,9 @@ int dijkstra_lista(list<Aresta> grafoLista[], int vertices, int origem, int dest
         visitado[atual] = true;
 
         // Atualiza distâncias dos vizinhos
-        for (auto& aresta : grafoLista[atual]) {
-            int d = aresta.destino;
-            int p = aresta.peso;
+        for (list<Aresta>::iterator it = grafoLista[atual].begin(); it != grafoLista[atual].end(); ++it) {
+            int d = it->destino;
+            int p = it->peso;
             if (!visitado[d] && distanciaArr[atual] + p < distanciaArr[d]) {
                 distanciaArr[d] = distanciaArr[atual] + p;
                 pais[d] = atual;
@@ -232,9 +229,9 @@ int primCentroPokemonMaisProximo(list<Aresta> grafoLista[], int vertices, int or
         }
 
         // Atualiza distâncias de arestas mínimas incidentes
-        for (auto& aresta : grafoLista[atual]) {
-            int d = aresta.destino;
-            int p = aresta.peso;
+        for (list<Aresta>::iterator it = grafoLista[atual].begin(); it != grafoLista[atual].end(); ++it) {
+            int d = it->destino;
+            int p = it->peso;
             if (!visitado[d] && p < distanciaArr[d]) {
                 distanciaArr[d] = p;
             }
@@ -263,7 +260,7 @@ void buscarCentroPokemonMaisProximo() {
     int cidadeAtual;
     cout << "Digite o codigo da sua cidade atual: ";
     cin >> cidadeAtual;
-    cin.ignore(100000, '\n');
+    cin.ignore();
 
     if (cidadeAtual < 1 || cidadeAtual > ncidades) {
         cout << "Codigo de cidade invalido!\n";
@@ -291,8 +288,8 @@ void inserirPokemon(NodePokemon*& raiz, const Pokemon& p) {
     if (!raiz) {
         raiz = new NodePokemon;
         raiz->info = p;
-        raiz->esquerda = nullptr;
-        raiz->direita = nullptr;
+        raiz->esquerda = NULL;
+        raiz->direita = NULL;
     }
     else if (p.nome < raiz->info.nome) {
         inserirPokemon(raiz->esquerda, p);
@@ -307,8 +304,8 @@ void inserirPorTipo(NodePokemon*& raiz, const Pokemon& p) {
     if (!raiz) {
         raiz = new NodePokemon;
         raiz->info = p;
-        raiz->esquerda = nullptr;
-        raiz->direita = nullptr;
+        raiz->esquerda = NULL;
+        raiz->direita = NULL;
     }
     else if (p.tipo < raiz->info.tipo) {
         inserirPorTipo(raiz->esquerda, p);
@@ -327,7 +324,7 @@ void inserirPorTipo(NodePokemon*& raiz, const Pokemon& p) {
 }
 
 NodePokemon* buscarNodePorNome(NodePokemon* raiz, const string& nome) {
-    if (!raiz) return nullptr;
+    if (!raiz) return NULL;
 
     if (nome < raiz->info.nome) {
         return buscarNodePorNome(raiz->esquerda, nome);
@@ -344,11 +341,9 @@ NodePokemon* buscarNodePorNome(NodePokemon* raiz, const string& nome) {
 bool removerPokemonPorTipo(NodePokemon*& raiz, const string& tipo, const string& nome) {
     if (!raiz) return false;
 
-    // Caso o tipo procurado seja "menor" do que o tipo do nó atual
     if (tipo < raiz->info.tipo) {
         return removerPokemonPorTipo(raiz->esquerda, tipo, nome);
     }
-    // Caso contrário, se tipo for “maior”
     else if (tipo > raiz->info.tipo) {
         return removerPokemonPorTipo(raiz->direita, tipo, nome);
     }
@@ -414,7 +409,6 @@ bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
             while ((*pred)->direita) {
                 pred = &((*pred)->direita);
             }
-            // Substitui info pelo predecessor
             raiz->info = (*pred)->info;
             temp = *pred;
             *pred = (*pred)->esquerda;
@@ -428,7 +422,7 @@ bool removerPokemonPorNome(NodePokemon*& raiz, const string& nome) {
 void removerPokemon() {
     string nome;
     cout << "Remover Pokemon - Digite o nome: ";
-    cin.ignore(100000, '\n');
+    cin.ignore();
     getline(cin, nome);
 
     // 1) Procurar na árvore por NOME para obter o tipo antes de apagar
@@ -501,7 +495,7 @@ void cadastrarPokemon() {
     cout << ">> Cadastrar Pokemon <<\n";
     do {
         cout << "Nome: ";
-        cin.ignore(100000, '\n');
+        cin.ignore();
         getline(cin, p.nome);
 
         cout << "Tipo: ";
@@ -512,7 +506,7 @@ void cadastrarPokemon() {
 
         cout << "Coordenadas (x y): ";
         cin >> p.x >> p.y;
-        cin.ignore(100000, '\n');
+        cin.ignore();
 
         // Ajusta para índice 0-based no mapa 10x10
         if (p.x >= 1 && p.x <= 10 && p.y >= 1 && p.y <= 10) {
@@ -550,7 +544,7 @@ void contarPokemonTipo() {
     }
     string tipoBusca;
     cout << "Digite o tipo do Pokemon: ";
-    cin.ignore(100000, '\n');
+    cin.ignore();
     getline(cin, tipoBusca);
 
     int cont = 0;
@@ -614,11 +608,11 @@ void encontrarPokemonProximos() {
     }
 
     cout << "\nPokemons mais proximos de (" << xref << "," << yref << "):\n";
-    for (const auto& p : proximos) {
-        cout << "- " << p.nome
-                  << " (Tipo: " << p.tipo
-                  << ", Codigo: " << p.num
-                  << ", Coords: " << p.x << "," << p.y 
+    for (list<Pokemon>::iterator it = proximos.begin(); it != proximos.end(); ++it) {
+        cout << "- " << it->nome
+                  << " (Tipo: " << it->tipo
+                  << ", Codigo: " << it->num
+                  << ", Coords: " << it->x << "," << it->y 
                   << ", Dist: " << minDist << ")\n";
     }
     cout << "\n";
@@ -659,45 +653,45 @@ int main() {
 
         switch (opcao) {
             case 1:
-                system("clear");
+                system("CLS");
                 cadastrarCidade();
                 break;
             case 2:
-                system("clear");
+                system("CLS");
                 cadastrarEstrada();
                 break;
             case 3:
-                system("clear");
+                system("CLS");
                 buscarCentroPokemonMaisProximo();
                 break;
             case 4:
-                system("clear");
+                system("CLS");
                 cadastrarPokemon();
                 break;
             case 5:
-                system("clear");
+                system("CLS");
                 removerPokemon();
                 break;
             case 6:
-                system("clear");
+                system("CLS");
                 cout << ">> Lista de Pokemons (ordenado por NOME) <<\n\n";
                 listarPokemonsPorNome(raizPorNome);
                 cout << "\n";
                 break;
             case 7:
-                system("clear");
+                system("CLS");
                 listarPokemonTipo();
                 break;
             case 8:
-                system("clear");
+                system("CLS");
                 contarPokemonTipo();
                 break;
             case 9:
-                system("clear");
+                system("CLS");
                 encontrarPokemonProximos();
                 break;
             case 10:
-                system("clear");
+                system("CLS");
                 cout << "Menu fechando...\n";
                 acabar = true;
                 break;
